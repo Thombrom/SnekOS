@@ -50,5 +50,5 @@ RUN cd /tmp/src && \
     make install-gcc && \
     make install-target-libgcc
 
-
+ENTRYPOINT ["/bin/bash", "-c"]
 
