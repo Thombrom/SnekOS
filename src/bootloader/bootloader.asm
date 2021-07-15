@@ -2,20 +2,17 @@
 ;   Bootloader for OS system
 ;
 
-mov ah, 0x0e            ; BIOS print routine
-
-mov al, 'H'
-int 0x10
-mov al, 'e'
-int 0x10
-mov al, 'l'
-int 0x10
-mov al, 'l'
-int 0x10
-mov al, 'o'
-int 0x10
+[org 0x7c00]            ; Bootloader always loaded at
+                        ; this specific adress
+mov bx, boot_msg
+call print_str
 
 jmp $
+
+boot_msg:
+    db "Booting SnekOS", 0
+
+%include "src/bootloader/print_str.asm"
 
 times 510-($-$$) db 0
 dw 0xaa55
