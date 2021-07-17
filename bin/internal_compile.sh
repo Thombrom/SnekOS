@@ -11,12 +11,13 @@ mkdir $BUILD_DIR
 mkdir $BUILD_DIR/$OBJ_DIR
 
 # Compile bootloader with NASM
-BOOTLOADER=src/bootloader/bootloader.asm
 
-nasm $BOOTLOADER -f bin -o $BUILD_DIR/$OBJ_DIR/bootloader.bin
-
+nasm src/bootloader/bootloader.asm -f bin -o $BUILD_DIR/$OBJ_DIR/bootloader.bin
+nasm src/bootloader/protected_mode.asm -f bin -o $BUILD_DIR/$OBJ_DIR/protected_mode.bin
 
 # Create ELF
-cp $BUILD_DIR/$OBJ_DIR/bootloader.bin $BUILD_DIR/image.elf
+cat $BUILD_DIR/$OBJ_DIR/bootloader.bin \
+    $BUILD_DIR/$OBJ_DIR/protected_mode.bin \
+    > $BUILD_DIR/image.elf
 
 echo "Internal compilation successful"
