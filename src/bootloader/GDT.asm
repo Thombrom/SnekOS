@@ -38,9 +38,15 @@ gdt_end:
 
 gdt_descriptor:
     dw gdt_end - gdt_start - 1      ; Size of GDT
-    dd gdt_start                    ; Start adress
+    dq gdt_start                    ; Start adress
 
 CODE_SEG equ gdt_code - gdt_start
 DATA_SEG equ gdt_data - gdt_start
 
+[bits 32]               ; Will be called from 32 bits
+gdt_edit_long_mode:
+    mov [gdt_code + 6], byte 10101111b   ; Set 32bit=0, 64seg=1
+    mov [gdt_data + 6], byte 10101111b   ; Set 32bit=0, 64seg=1
+    ret
 
+[bits 16]               ; remember to call back
