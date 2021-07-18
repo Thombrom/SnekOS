@@ -33,9 +33,13 @@ protected_mode_begin:
     mov ebx, protected_mode_message
     call print_str_32
 
+    call cpuid_detect       ; Detect cpuid
+    call long_mode_detect   ; Detect long mode
+
     jmp $
 
 %include "src/bootloader/print_str_32bit.asm"
+%include "src/bootloader/CPUID.asm"
 
 protected_mode_message:
     db "Entered 32bit protected mode", 0
