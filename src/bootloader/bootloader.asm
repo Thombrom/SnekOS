@@ -13,6 +13,7 @@
 [org 0x7c00]                ; Bootloader always loaded at
                             ; this specific adress
 PROGRAM_SPACE equ 0x9000
+SECTOR_LOAD_NUM equ 10
 
     ; Load further sectors
     ; into memory
@@ -22,8 +23,8 @@ PROGRAM_SPACE equ 0x9000
     mov bp, 0x8000          ; Set stack to save location
     mov sp, bp
 
-    mov bx, PROGRAM_SPACE   ; Load 5 sectors to 0x9000
-    mov dh, 5               ; from boot disk
+    mov bx, PROGRAM_SPACE   ; Load sectors to 0x9000
+    mov dh, SECTOR_LOAD_NUM ; from boot disk
     mov dl, [BOOT_DRIVE]
     call disk_load
 

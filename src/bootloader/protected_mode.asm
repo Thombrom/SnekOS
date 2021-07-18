@@ -33,14 +33,47 @@ protected_mode_begin:
     mov ebx, protected_mode_message
     call print_str_32
 
-    call cpuid_detect       ; Detect cpuid
-    call long_mode_detect   ; Detect long mode
+    ; Enable A20
+    in al, 0x92
+    or al, 2
+    out 0x92, al
 
-    jmp $
+    ; Switch to Long Mode
+    call cpuid_detect               ; Detect cpuid
+    call long_mode_detect           ; Detect long mode
+    call paging_identity_setup      ; Set up identity paging
+    call gdt_edit_long_mode         ; Set up GDT for long mode
+
+    jmp CODE_SEG:long_mode_init
 
 %include "src/bootloader/print_str_32bit.asm"
 %include "src/bootloader/CPUID.asm"
+%include "src/bootloader/paging.asm"
 
 protected_mode_message:
     db "Entered 32bit protected mode", 0
+
+[bits 64]
+
+long_mode_init:
+
+    mov ax, DATA_SEG        ; Update segments
+    mov ds, ax
+    mov ss, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+    mov ebp, 0x90000        ; Update stack so it at the top
+    mov esp, ebp            ; of the free space
+
+long_mode_begin:
+
+    mov edi, 0xb8000
+    mov rax, 0x1f201f201f201f20
+    mov ecx, 500
+    rep stosq
+
+    jmp $
+
 
