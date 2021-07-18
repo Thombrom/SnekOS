@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Create build directory
+BUILD_DIR=build
+OBJ_DIR=obj
+BIN_DIR=bin
+TMP_DIR=tmp
+
+COMPILER=/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc
+LINKER=/usr/local/x86_64elfgcc/x86_64-elf/bin/ld
+
+if [[ -d $BUILD_DIR ]]; then
+    rm -r $BUILD_DIR
+fi
+mkdir $BUILD_DIR
+mkdir $BUILD_DIR/$OBJ_DIR
+mkdir $BUILD_DIR/$BIN_DIR
+mkdir $BUILD_DIR/$TMP_DIR
+
+# Compile bootloader with NASM
+nasm src/bootloader/bootloader.asm -f bin -o $BUILD_DIR/$BIN_DIR/bootloader.bin
+nasm src/bootloader/protected_mode.asm -f elf64 -o $BUILD_DIR/$OBJ_DIR/protected_mode.o
+
+# Compile kernel with Cross Compiler
+$COMPILER -ffreestanding -mno-red-zone -m64 -c src/kernel/entry.c -o $BUILD_DIR/$OBJ_DIR/entry.o
+
+# Link everything with custom linker
+$LINKER -o $BUILD_DIR/$TMP_DIR/kernel.tmp -Ttext 0x9000 \
+    $BUILD_DIR/$OBJ_DIR/protected_mode.o \
+    $BUILD_DIR/$OBJ_DIR/entry.o
+
+objcopy -O binary $BUILD_DIR/$TMP_DIR/kernel.tmp $BUILD_DIR/$BIN_DIR/kernel.bin
+
+# Create ELF
+cat $BUILD_DIR/$OBJ_DIR/bootloader.bin \
+    $BUILD_DIR/$OBJ_DIR/kernel.bin \
+    > $BUILD_DIR/image.elf
+
+echo "Internal compilation successful"
