@@ -6,6 +6,7 @@ void _start() {
     *video_memory = 0x50505050;
 
     screen_set_cursor_position(40, 12);
+    screen_print_string("Hello World!");
 
     while (1);
 }

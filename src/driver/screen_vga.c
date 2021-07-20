@@ -1,6 +1,6 @@
 #include "screen_vga.h"
 
-#define VGA_MEMORY (uint8_t*)0x8b000
+#define VGA_MEMORY (uint8_t*)0xb8000
 #define VGA_HEIGHT 25
 #define VGA_WIDTH  80
 
@@ -20,4 +20,16 @@ void screen_set_cursor_position(uint16_t _w, uint16_t _h)
 {
     uint16_t offset = _h * VGA_WIDTH + _w;
     screen_set_cursor_offset(offset);
+}
+
+void screen_print_string(const char* _string)
+{
+    uint8_t* char_ptr = (uint8_t*)_string;
+    uint16_t pos_ptr  = screen_cursor_offset;
+
+    while(*char_ptr != '\0') {
+        *(VGA_MEMORY + 2 * pos_ptr++) = *(char_ptr++);
+    }
+
+    screen_set_cursor_offset(pos_ptr);
 }
