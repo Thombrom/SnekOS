@@ -22,14 +22,10 @@ nasm src/bootloader/bootloader.asm -f bin -o $BIN_DIR/bootloader.bin
 nasm src/bootloader/protected_mode.asm -f elf64 -o $OBJ_DIR/protected_mode.o
 
 # Compile with cross compiler
-$COMPILER -ffreestanding -mno-red-zone -m64 -c src/kernel/entry.c -o $OBJ_DIR/entry.o
+$COMPILER -Ttext 0x9000 -ffreestanding -mno-red-zone -m64 -c src/kernel/entry.c -o $OBJ_DIR/entry.o
 
 # Link with custom linker
-$LINKER -o $TMP_DIR/kernel.tmp -Ttext 0x9000 \
-    $OBJ_DIR/protected_mode.o \
-    $OBJ_DIR/entry.o
-
-objcopy -O binary $TMP_DIR/kernel.tmp $BIN_DIR/kernel.bin
+$LINKER -T"bin/link.ld"
 
 # Create ELF
 cat $BIN_DIR/bootloader.bin \
