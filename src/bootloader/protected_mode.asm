@@ -1,6 +1,5 @@
-[org 0x9000]
-
 ; Make switch to 32-bit protected
+[bits 16]
 protected_mode_enter:
     cli                     ; Disable interrupts
     lgdt [gdt_descriptor]
@@ -54,6 +53,7 @@ protected_mode_message:
     db "Entered 32bit protected mode", 0
 
 [bits 64]
+[extern _start]
 
 long_mode_init:
 
@@ -73,6 +73,8 @@ long_mode_begin:
     mov rax, 0x1f201f201f201f20
     mov ecx, 500
     rep stosq
+
+    call _start
 
     jmp $
 
