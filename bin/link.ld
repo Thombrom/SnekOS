@@ -5,7 +5,9 @@ ENTRY(_start)
 INPUT
 (
     build/obj/protected_mode.o
-    build/obj/entry.o
+    build/obj/driver/screen_vga.o
+    build/obj/kernel/entry.o
+    build/obj/kernel/io.o
 )
 
 OUTPUT

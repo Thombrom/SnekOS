@@ -6,8 +6,10 @@ OBJ_DIR=$BUILD_DIR/obj
 BIN_DIR=$BUILD_DIR/bin
 TMP_DIR=$BUILD_DIR/tmp
 
-COMPILER=/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc
 LINKER=/usr/local/x86_64elfgcc/x86_64-elf/bin/ld
+COMPILER=/usr/local/x86_64elfgcc/bin/x86_64-elf-gcc
+
+COMPILER_PARAM="-Ttext 0x9000 -ffreestanding -mno-red-zone -m64"
 
 if [[ -d $BUILD_DIR ]]; then
     rm -r $BUILD_DIR
@@ -22,7 +24,12 @@ nasm src/bootloader/bootloader.asm -f bin -o $BIN_DIR/bootloader.bin
 nasm src/bootloader/protected_mode.asm -f elf64 -o $OBJ_DIR/protected_mode.o
 
 # Compile with cross compiler
-$COMPILER -Ttext 0x9000 -ffreestanding -mno-red-zone -m64 -c src/kernel/entry.c -o $OBJ_DIR/entry.o
+mkdir $OBJ_DIR/kernel
+$COMPILER $COMPILER_PARAM -c src/kernel/entry.c -o $OBJ_DIR/kernel/entry.o
+$COMPILER $COMPILER_PARAM -c src/kernel/io.c -o $OBJ_DIR/kernel/io.o
+
+mkdir $OBJ_DIR/driver
+$COMPILER $COMPILER_PARAM -c src/driver/screen_vga.c -o $OBJ_DIR/driver/screen_vga.o
 
 # Link with custom linker
 $LINKER -T"bin/link.ld"
