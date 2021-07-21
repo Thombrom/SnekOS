@@ -6,6 +6,7 @@ INPUT
 (
     build/obj/protected_mode.o
     build/obj/driver/screen_vga.o
+    build/obj/driver/serial.o
     build/obj/kernel/entry.o
     build/obj/kernel/io.o
 )

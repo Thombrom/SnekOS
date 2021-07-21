@@ -30,6 +30,7 @@ $COMPILER $COMPILER_PARAM -c src/kernel/io.c -o $OBJ_DIR/kernel/io.o
 
 mkdir $OBJ_DIR/driver
 $COMPILER $COMPILER_PARAM -c src/driver/screen_vga.c -o $OBJ_DIR/driver/screen_vga.o
+$COMPILER $COMPILER_PARAM -c src/driver/serial.c -o $OBJ_DIR/driver/serial.o
 
 # Link with custom linker
 $LINKER -T"bin/link.ld"
