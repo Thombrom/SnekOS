@@ -27,9 +27,19 @@ void screen_print_string(const char* _string)
     uint8_t* char_ptr = (uint8_t*)_string;
     uint16_t pos_ptr  = screen_cursor_offset;
 
-    while(*char_ptr != '\0') {
+    while(*char_ptr != '\0')
         *(VGA_MEMORY + 2 * pos_ptr++) = *(char_ptr++);
-    }
 
     screen_set_cursor_offset(pos_ptr);
+}
+
+void screen_print_string_format(const char* _string, uint8_t _format)
+{
+    uint8_t* char_ptr = (uint8_t*)_string;
+    uint16_t pos_ptr  = screen_cursor_offset;
+
+    while(*char_ptr++ != '\0')
+        *(VGA_MEMORY + 2 * pos_ptr++ + 1) = _format;
+
+    screen_print_string(_string);
 }
