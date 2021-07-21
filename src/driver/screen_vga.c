@@ -33,7 +33,7 @@ void screen_print_string(const char* _string)
     screen_set_cursor_offset(pos_ptr);
 }
 
-void screen_print_string_format(const char* _string, uint8_t _format)
+void screen_print_string_f(const char* _string, uint8_t _format)
 {
     uint8_t* char_ptr = (uint8_t*)_string;
     uint16_t pos_ptr  = screen_cursor_offset;
@@ -50,7 +50,7 @@ void screen_clear()
         *(VGA_MEMORY + 2 * pos) = 0x20;
 }
 
-void screen_clear_format(uint8_t _format)
+void screen_clear_f(uint8_t _format)
 {
     for(uint16_t pos = 0; pos < VGA_WIDTH * VGA_HEIGHT; pos++)
         *(VGA_MEMORY + 2 * pos + 1) = _format;

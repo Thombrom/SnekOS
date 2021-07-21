@@ -56,9 +56,9 @@ void screen_set_cursor_offset(uint16_t _offset);
 void screen_set_cursor_position(uint16_t _w, uint16_t _h);
 
 void screen_print_string(const char* _string);
-void screen_print_string_format(const char* _string, uint8_t _format);
+void screen_print_string_f(const char* _string, uint8_t _format);
 
 void screen_clear();
-void screen_clear_format(uint8_t _format);
+void screen_clear_f(uint8_t _format);
 
 extern uint16_t screen_cursor_offset;
