@@ -28,7 +28,22 @@ void screen_print_string(const char* _string)
     uint16_t pos_ptr  = screen_cursor_offset;
 
     while(*char_ptr != '\0')
+    {
+        // Perfrom lineshift
+        if (*char_ptr == '\n')
+        {
+            uint16_t pos_ptr_offset = pos_ptr               % VGA_WIDTH;
+            uint16_t cursor_offset  = screen_cursor_offset  % VGA_WIDTH;
+
+            uint16_t offset = cursor_offset + VGA_WIDTH - pos_ptr_offset;
+            pos_ptr += offset;
+
+            char_ptr++;
+            continue;
+        }
+
         *(VGA_MEMORY + 2 * pos_ptr++) = *(char_ptr++);
+    }
 
     screen_set_cursor_offset(pos_ptr);
 }
