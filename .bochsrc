@@ -7,7 +7,9 @@ floppya: 1_44=build/image.elf, status=inserted
 boot: floppy
 mouse: enabled=0
 
-log:         bochslog.log
+com1: enabled=1, mode=file, dev=logs/com1.out
+
+log:         logs/bochslog.log
 error:       action=report
 info:        action=report
 debug:       action=ignore
