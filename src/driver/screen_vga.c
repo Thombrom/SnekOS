@@ -43,3 +43,17 @@ void screen_print_string_format(const char* _string, uint8_t _format)
 
     screen_print_string(_string);
 }
+
+void screen_clear()
+{
+    for(uint16_t pos = 0; pos < VGA_WIDTH * VGA_HEIGHT; pos++)
+        *(VGA_MEMORY + 2 * pos) = 0x20;
+}
+
+void screen_clear_format(uint8_t _format)
+{
+    for(uint16_t pos = 0; pos < VGA_WIDTH * VGA_HEIGHT; pos++)
+        *(VGA_MEMORY + 2 * pos + 1) = _format;
+
+    screen_clear();
+}
