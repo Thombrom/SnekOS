@@ -3,6 +3,11 @@
 #include "../kernel/typedef.h"
 #include "../kernel/io.h"
 
+/*
+ *  Background and foreground color definitions
+ *  to be used together with 'screen_print_string_format'
+ */
+
 #define FG_BLACK            0x0
 #define FG_BLUE             0x1
 #define FG_GREEN            0x2
@@ -37,6 +42,17 @@
 #define BG_LIGHT_BROWN      0xe << 4
 #define BG_WHITE            0xf << 4
 
+/*
+ *  IO Port definitions
+ */
+
+#define CURSOR_POSITION_COMMAND_PORT    0x3D4
+#define CURSOR_POSITION_DATA_PORT       0x3D5
+
+#define CURSOR_POSITION_HIGH_BYTE_CMD   0x0E
+#define CURSOR_POSITION_LOW_BYTE_CMD    0x0F
+
+void screen_set_cursor_offset(uint16_t _offset);
 void screen_set_cursor_position(uint16_t _w, uint16_t _h);
 
 void screen_print_string(const char* _string);

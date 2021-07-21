@@ -8,10 +8,10 @@ uint16_t screen_cursor_offset = 0;
 
 void screen_set_cursor_offset(uint16_t _offset)
 {
-    out_byte(0x3D4, 0x0F);
-    out_byte(0x3D5, (unsigned char)_offset & 0xFF);
-    out_byte(0x3D4, 0x0E);
-    out_byte(0x3D5, (unsigned char)((_offset >> 8) & 0xFF));
+    out_byte(CURSOR_POSITION_COMMAND_PORT,  CURSOR_POSITION_LOW_BYTE_CMD);
+    out_byte(CURSOR_POSITION_DATA_PORT,     (unsigned char)_offset & 0xFF);
+    out_byte(CURSOR_POSITION_COMMAND_PORT,  CURSOR_POSITION_HIGH_BYTE_CMD);
+    out_byte(CURSOR_POSITION_DATA_PORT,     (unsigned char)((_offset >> 8) & 0xFF));
 
     screen_cursor_offset = _offset;
 }
