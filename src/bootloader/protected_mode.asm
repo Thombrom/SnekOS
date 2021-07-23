@@ -55,6 +55,8 @@ protected_mode_message:
 [bits 64]
 [extern _start]
 
+%Include "src/kernel/interrupt.asm"
+
 long_mode_init:
 
     mov ax, DATA_SEG        ; Update segments
