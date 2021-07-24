@@ -22,7 +22,7 @@ mkdir $TMP_DIR
 # Compile bootloader with NASM
 nasm src/bootloader/bootloader.asm -f bin -o $BIN_DIR/bootloader.bin
 nasm src/bootloader/protected_mode.asm -f elf64 -o $OBJ_DIR/protected_mode.o
-#nasm src/kernel/interrupt.asm -f elf64 -o $OBJ_DIR/interrupt.o
+nasm src/kernel/interrupt.asm -f elf64 -o $OBJ_DIR/interrupt.o
 
 # Compile with cross compiler
 mkdir $OBJ_DIR/kernel

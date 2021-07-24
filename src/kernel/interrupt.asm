@@ -1,3 +1,4 @@
+[bits 64]
 
 [extern _idt]
 idt_descriptor:
