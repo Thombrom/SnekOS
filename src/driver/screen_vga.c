@@ -59,6 +59,17 @@ void screen_print_string_f(const char* _string, uint8_t _format)
     screen_print_string(_string);
 }
 
+void screen_putchar(char _char)
+{
+    *(VGA_MEMORY + 2 * screen_cursor_offset++) = _char;
+}
+
+void screen_putchar_f(char _char, uint8_t _format)
+{
+    *(VGA_MEMORY + 2 * screen_cursor_offset) = _char;
+    *(VGA_MEMORY + 2 * screen_cursor_offset++ + 1) = _format;
+}
+
 void screen_clear()
 {
     for(uint16_t pos = 0; pos < VGA_WIDTH * VGA_HEIGHT; pos++)

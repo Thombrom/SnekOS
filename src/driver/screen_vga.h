@@ -58,6 +58,9 @@ void screen_set_cursor_position(uint16_t _w, uint16_t _h);
 void screen_print_string(const char* _string);
 void screen_print_string_f(const char* _string, uint8_t _format);
 
+void screen_putchar(char _char);
+void screen_putchar_f(char _char, uint8_t _format);
+
 void screen_clear();
 void screen_clear_f(uint8_t _format);
 
