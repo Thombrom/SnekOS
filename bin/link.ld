@@ -10,6 +10,7 @@ INPUT
     build/obj/kernel/entry.o
     build/obj/kernel/io.o
     build/obj/kernel/idt.o
+    build/obj/kernel/pic.o
     build/obj/interrupt.o
 )
 

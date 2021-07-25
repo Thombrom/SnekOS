@@ -29,6 +29,7 @@ mkdir $OBJ_DIR/kernel
 $COMPILER $COMPILER_PARAM -c src/kernel/entry.c -o $OBJ_DIR/kernel/entry.o
 $COMPILER $COMPILER_PARAM -c src/kernel/io.c -o $OBJ_DIR/kernel/io.o
 $COMPILER $COMPILER_PARAM -c src/kernel/idt.c -o $OBJ_DIR/kernel/idt.o
+$COMPILER $COMPILER_PARAM -c src/kernel/pic.c -o $OBJ_DIR/kernel/pic.o
 
 mkdir $OBJ_DIR/driver
 $COMPILER $COMPILER_PARAM -c src/driver/screen_vga.c -o $OBJ_DIR/driver/screen_vga.o
