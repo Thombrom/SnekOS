@@ -12,6 +12,7 @@
 
 extern void* isr_stub_table[];
 struct idtr_t idtr;
+interrupt_handler_t interrupt_handler_table[32];
 
 /*
  *  Implementation
@@ -44,33 +45,36 @@ void idt_init() {
 
     // Load idt (lidt) and enable interrupts (sti)
     __asm__ volatile ("lidt %0" :  : "memory"(idtr));
-    out_byte(0x21, 0xfd);           // Mask PIC1 to only keyboard interrupts
-    out_byte(0xa1, 0xff);           // Mask PIC2 to no interrupts
+    out_byte(0x21, 0xfd);                               // Mask PIC1 to only keyboard interrupts
+    out_byte(0xa1, 0xff);                               // Mask PIC2 to no interrupts
     __asm__ volatile ("sti");
 }
 
 void interrupt_handler(struct interrupt_frame _frame)
 {
-    screen_set_cursor_position(0, 0);
-    uint8_t scan_code;
-    in_byte(0x60, &scan_code);
+    uint8_t interrupt = (uint8_t)_frame.interrupt;
 
-    //scan_code = (uint8_t)_frame.interrupt;
+    if (interrupt > 31)
+    {   // We cannot handle this right now
+        pic_acknowledge(interrupt);
+        return;
+    }
 
-    uint8_t digits[3] = { 0, 0, 0 };
-    uint8_t* scan_code_str = "000";
+    if (!interrupt_handler_table[interrupt])
+    {   // We don't have handler registered
+        pic_acknowledge(interrupt);
+        return;
+    }
 
-    digits[0] = (scan_code - scan_code % 100) / 100;
-    digits[1] = (scan_code - digits[0] * 100 - scan_code % 10) / 10;
-    digits[2] = scan_code % 10;
+    interrupt_handler_table[interrupt](_frame);
+    pic_acknowledge(interrupt);
+    return;
+}
 
-    scan_code_str[0] = 48 + digits[0];
-    scan_code_str[1] = 48 + digits[1];
-    scan_code_str[2] = 48 + digits[2];
+void register_interrupt_handler(interrupt_handler_t _handler, uint8_t _interrupt)
+{
+    if (_interrupt > 31)
+        return;
 
-    screen_print_string(scan_code_str);
-
-    out_byte(0x20, 0x20);
-    out_byte(0xa0, 0x20);
-
+    interrupt_handler_table[_interrupt] = _handler;
 }

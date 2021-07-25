@@ -2,6 +2,8 @@
 
 #include "typedef.h"
 #include "io.h"
+#include "pic.h"
+
 #include "../driver/screen_vga.h"
 
 /*
@@ -40,6 +42,30 @@ struct idtr_t {
     uint16_t    limit;
     uint64_t    base;
 } __attribute__((packed));
+
+/*
+ *  interrupt_frame
+ *
+ *  A representation of the frame generated
+ *  upon interrupts.
+ *
+ *   - interrupt:
+ *      Interrupt number (0 - 31 mapped)
+ *   - error_code:
+ *      For interrupts with error codes
+ *   - rip:
+ *      Original stack pointer before interrupt
+ *   - rflags
+ *      Flags regsiter
+ *   - cs
+ *      Code segment - defined in GDT
+ *   - RIP
+ *      Instruction pointer
+ *
+ *  Note: The location of these on the stack have
+ *  not been tested properly, so they might need to
+ *  be reordered if used
+ */
 
 struct interrupt_frame {
     uint64_t interrupt;
@@ -85,3 +111,16 @@ void idt_set_descriptor(uint8_t _vector, void* _isr, uint8_t _flags);
  */
 
 void interrupt_handler(struct interrupt_frame _frame);
+
+
+/*
+ *  Regisetering interrupt handlers
+ *
+ *  Interrupt handler type and registry for the handlers.
+ *  Function to register, taking a function pointer and an
+ *  interrupt it will be registered to
+ */
+
+typedef void (*interrupt_handler_t)(struct interrupt_frame _frame);
+
+void register_interrupt_handler(interrupt_handler_t _handler, uint8_t _interrupt);
