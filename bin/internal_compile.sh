@@ -30,10 +30,12 @@ $COMPILER $COMPILER_PARAM -c src/kernel/entry.c -o $OBJ_DIR/kernel/entry.o
 $COMPILER $COMPILER_PARAM -c src/kernel/io.c -o $OBJ_DIR/kernel/io.o
 $COMPILER $COMPILER_PARAM -c src/kernel/idt.c -o $OBJ_DIR/kernel/idt.o
 $COMPILER $COMPILER_PARAM -c src/kernel/pic.c -o $OBJ_DIR/kernel/pic.o
+$COMPILER $COMPILER_PARAM -c src/kernel/ps2.c -o $OBJ_DIR/kernel/ps2.o
 
 mkdir $OBJ_DIR/driver
 $COMPILER $COMPILER_PARAM -c src/driver/screen_vga.c -o $OBJ_DIR/driver/screen_vga.o
 $COMPILER $COMPILER_PARAM -c src/driver/serial.c -o $OBJ_DIR/driver/serial.o
+$COMPILER $COMPILER_PARAM -c src/driver/keyboard.c -o $OBJ_DIR/driver/keyboard.o
 
 # Link with custom linker
 $LINKER -T"bin/link.ld"

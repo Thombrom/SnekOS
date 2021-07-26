@@ -7,10 +7,12 @@ INPUT
     build/obj/protected_mode.o
     build/obj/driver/screen_vga.o
     build/obj/driver/serial.o
+    build/obj/driver/keyboard.o
     build/obj/kernel/entry.o
     build/obj/kernel/io.o
     build/obj/kernel/idt.o
     build/obj/kernel/pic.o
+    build/obj/kernel/ps2.o
     build/obj/interrupt.o
 )
 
