@@ -5,6 +5,7 @@
  */
 
 keyboard_event_handler_t keyboard_event_handlers[KEYBOARD_EVENT_HANDLER_MAX];
+uint8_t keyboard_key_state[256];
 
 /*
  *  Implementation
@@ -15,6 +16,9 @@ void keyboard_activate(void)
 {
     uint8_t interrupt_vector = PIC_MASTER_START_INTERRUPT + 1;
     register_interrupt_handler(&keyboard_interrupt_handler, interrupt_vector);
+
+    // Register key state handler
+    keyboard_register_event_handler(&_keyboard_register_key_state);
 }
 
 uint8_t keyboard_register_event_handler(keyboard_event_handler_t _event_handler)
@@ -47,6 +51,19 @@ void keyboard_interrupt_handler(struct interrupt_frame _frame)
         if(event_handler && event_handler(key_event))
             break;
     }
+}
+
+uint8_t keyboard_key_state(uint8_t _key_code)
+{
+    return keyboard_key_state[_key_code];
+}
+
+uint8_t _keyboard_register_key_state(struct key_event_t _key_event)
+{
+    uint8_t pressed = !(_key_event.flags & KEYBOARD_FLAG_RELEASE);
+    keyboard_key_state[_key_event.key_code] = pressed;
+
+    return 0;
 }
 
 uint8_t _keyboard_scancode_await()

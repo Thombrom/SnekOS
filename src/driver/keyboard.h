@@ -50,6 +50,19 @@ typedef uint8_t (*keyboard_event_handler_t)(struct key_event_t);
 uint8_t keyboard_register_event_handler(keyboard_event_handler_t _event_handler);
 
 /*
+ *  key_state
+ *
+ *  Query key states on the go
+ *  providing the key code.
+ *
+ *  A falsy value represents non-pressed
+ *  and a truthy represents pressed
+ */
+
+uint8_t keyboard_key_state(uint8_t _key_code);
+uint8_t _keyboard_register_key_state(struct key_event_t _key_event);
+
+/*
  *  _keyboard_scancode_await
  *
  *  Will attempt to read keyboard
