@@ -8,6 +8,7 @@
 #include "../driver/screen_vga.h"
 
 #define KEYBOARD_KEY_AWAIT_CYCLES   30
+#define KEYBOARD_EVENT_HANDLER_MAX  8
 
 #define KEYBOARD_FLAG_RELEASE   1 << 0
 #define KEYBOARD_FLAG_SHIFT     1 << 1
@@ -35,6 +36,20 @@ void keyboard_activate(void);
 void keyboard_interrupt_handler(struct interrupt_frame _frame);
 
 /*
+ *  keyboard_register_event_handler
+ *
+ *  Allows you to register an event handler for the
+ *  keyboard. The handler should return truthy value
+ *  if the event was handled. That stops it from passing
+ *  on to the next registered handler
+ */
+
+struct key_event_t;
+typedef uint8_t (*keyboard_event_handler_t)(struct key_event_t);
+
+uint8_t keyboard_register_event_handler(keyboard_event_handler_t _event_handler);
+
+/*
  *  _keyboard_scancode_await
  *
  *  Will attempt to read keyboard
@@ -46,7 +61,6 @@ void keyboard_interrupt_handler(struct interrupt_frame _frame);
  */
 
 uint8_t _keyboard_scancode_await();
-
 
 /*
  * _scan_code_to_key_event

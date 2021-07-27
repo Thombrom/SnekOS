@@ -1,9 +1,34 @@
 #include "keyboard.h"
 
+/*
+ *  Data only relevant for this compilation unit
+ */
+
+keyboard_event_handler_t keyboard_event_handlers[KEYBOARD_EVENT_HANDLER_MAX];
+
+/*
+ *  Implementation
+ */
+
+
 void keyboard_activate(void)
 {
     uint8_t interrupt_vector = PIC_MASTER_START_INTERRUPT + 1;
     register_interrupt_handler(&keyboard_interrupt_handler, interrupt_vector);
+}
+
+uint8_t keyboard_register_event_handler(keyboard_event_handler_t _event_handler)
+{
+    for (uint8_t itt = 0; itt < KEYBOARD_EVENT_HANDLER_MAX; itt++)
+    {
+        if (!keyboard_event_handlers[itt])
+        {
+            keyboard_event_handlers[itt] = _event_handler;
+            return itt + 1;
+        }
+    }
+
+    return 0;
 }
 
 void keyboard_interrupt_handler(struct interrupt_frame _frame)
@@ -13,20 +38,14 @@ void keyboard_interrupt_handler(struct interrupt_frame _frame)
     uint8_t index = 0;
 
     while(scan_codes[index++] = _keyboard_scancode_await());
-
     struct key_event_t key_event = _scan_code_to_key_event(scan_codes);
-    screen_set_cursor_position(0, 0);
-    if (key_event.key_code)
+
+    keyboard_event_handler_t event_handler;
+    for (uint8_t itt = 0; itt < KEYBOARD_EVENT_HANDLER_MAX; itt++)
     {
-        screen_putchar('0');
-        screen_putchar('x');
-
-        char* lookup_table = "0123456789ABCDEF";
-        uint8_t hex_offset_1 = (uint8_t)((key_event.key_code >> 4) & 0x0F);
-        uint8_t hex_offset_2 = (uint8_t)(key_event.key_code & 0x0F);
-
-        screen_putchar(lookup_table[hex_offset_1]);
-        screen_putchar(lookup_table[hex_offset_2]);
+        event_handler = keyboard_event_handlers[itt];
+        if(event_handler && event_handler(key_event))
+            break;
     }
 }
 
