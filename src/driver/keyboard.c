@@ -7,6 +7,9 @@
 keyboard_event_handler_t keyboard_event_handlers[KEYBOARD_EVENT_HANDLER_MAX];
 uint8_t keyboard_key_state_table[256];
 
+// For Capslock, Scrolllock and Numlock
+uint8_t key_lock_flags = 0;
+
 /*
  *  Implementation
  */
@@ -35,6 +38,21 @@ uint8_t keyboard_register_event_handler(keyboard_event_handler_t _event_handler)
     return 0;
 }
 
+void _keyboard_update_lock_flags(struct key_event_t _key_event)
+{
+    uint8_t flags = _key_event.flags;
+    if (!(flags & KEYBOARD_FLAG_RELEASE) && _key_event.key_code == CAPSLOCK)
+        key_lock_flags ^= KEYBOARD_FLAG_CAPSLOCK;
+
+    if (!(flags & KEYBOARD_FLAG_RELEASE) && _key_event.key_code == NUMLOCK)
+        key_lock_flags ^= KEYBOARD_FLAG_NUMLOCK;
+
+    if (!(flags & KEYBOARD_FLAG_RELEASE) && _key_event.key_code == SCROLLOCK)
+        key_lock_flags ^= KEYBOARD_FLAG_SCROLLOCK;
+
+
+}
+
 void keyboard_interrupt_handler(struct interrupt_frame _frame)
 {
 
@@ -43,6 +61,8 @@ void keyboard_interrupt_handler(struct interrupt_frame _frame)
 
     while(scan_codes[index++] = _keyboard_scancode_await());
     struct key_event_t key_event = _scan_code_to_key_event(scan_codes);
+
+    _keyboard_update_lock_flags(key_event);
 
     keyboard_event_handler_t event_handler;
     for (uint8_t itt = 0; itt < KEYBOARD_EVENT_HANDLER_MAX; itt++)
@@ -158,6 +178,17 @@ struct key_event_t _scan_code_to_key_event(uint8_t* _scan_codes)
         flags |= KEYBOARD_FLAG_RELEASE;
     }
 
+    if (keyboard_key_state(SHIFT_RIGHT) || keyboard_key_state(SHIFT_LEFT))
+        flags |= KEYBOARD_FLAG_SHIFT;
+
+    if (keyboard_key_state(CTRL_LEFT) || keyboard_key_state(CTRL_RIGHT))
+        flags |= KEYBOARD_FLAG_CTRL;
+
+    if (keyboard_key_state(ALT_LEFT) || keyboard_key_state(ALT_RIGHT))
+        flags |= KEYBOARD_FLAG_ALT;
+
+    flags |= key_lock_flags;
+
     struct key_event_t key_event;
     key_event.key_code  = scan_code_lookup[offset];
     key_event.flags     = flags;
@@ -218,12 +249,12 @@ uint8_t key_code_to_ascii_upper[256] = {
     ')',    0,      0,      0,          // 0x24
     0,      0,      0,      0,          // 0x28
     0,      0,      0,      0,          // 0x2C
-    '!',    '\'',   '\'',    '.',       // 0x30
+    '!',    '\'',   '\'',    ':',       // 0x30
     '&',    '/',    '=',    '?',        // 0x34
     '@',    0,    '$',    '\\',         // 0x38
     0,      '\t',   0,      0,          // 0x3C
     0,      '-',    '\n',   ';',        // 0x40
-    ',',    ' ',    0,      0,          // 0x44
+    ';',    ' ',    0,      0,          // 0x44
     0,      0,      0,      0,          // 0x48
     0,      0,      0,      0,          // 0x4C
     '[',    ']',    '{',    '}',        // 0x50
