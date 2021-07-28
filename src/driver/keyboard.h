@@ -14,6 +14,9 @@
 #define KEYBOARD_FLAG_SHIFT     1 << 1
 #define KEYBOARD_FLAG_ALT       1 << 2
 #define KEYBOARD_FLAG_CTRL      1 << 3
+#define KEYBOARD_FLAG_NUMLOCK   1 << 4
+#define KEYBOARD_FLAG_CAPSLOCK  1 << 5
+#define KEYBOARD_FLAG_SCROLLOCK 1 << 6
 
 /*
  *  keyboard_activate
@@ -63,6 +66,17 @@ uint8_t keyboard_key_state(uint8_t _key_code);
 uint8_t _keyboard_register_key_state(struct key_event_t _key_event);
 
 /*
+ *  key_event_to_ascii
+ *
+ *  Converts the content of a key_event to
+ *  an ascii character if possible, or returns 0
+ *  if non-applicable. Release events are treated
+ *  ad non-applicable
+ */
+
+char key_event_to_ascii(struct key_event_t _key_event);
+
+/*
  *  _keyboard_scancode_await
  *
  *  Will attempt to read keyboard
@@ -72,6 +86,7 @@ uint8_t _keyboard_register_key_state(struct key_event_t _key_event);
  *
  *  Returns the scancode
  */
+
 
 uint8_t _keyboard_scancode_await();
 
