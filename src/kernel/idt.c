@@ -45,7 +45,7 @@ void idt_init() {
 
     // Load idt (lidt) and enable interrupts (sti)
     __asm__ volatile ("lidt %0" :  : "memory"(idtr));
-    out_byte(0x21, 0xfd);                               // Mask PIC1 to only keyboard interrupts
+    out_byte(0x21, 0xfc);                               // Mask PIC1 to only keyboard interrupts
     out_byte(0xa1, 0xff);                               // Mask PIC2 to no interrupts
     __asm__ volatile ("sti");
 }
