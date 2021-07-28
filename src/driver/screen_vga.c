@@ -83,3 +83,9 @@ void screen_clear_f(uint8_t _format)
 
     screen_clear();
 }
+
+void screen_next_line()
+{
+    screen_cursor_offset -= screen_cursor_offset % VGA_WIDTH;
+    screen_cursor_offset += VGA_WIDTH;
+}

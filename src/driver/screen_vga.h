@@ -64,4 +64,6 @@ void screen_putchar_f(char _char, uint8_t _format);
 void screen_clear();
 void screen_clear_f(uint8_t _format);
 
+void screen_next_line();
+
 extern uint16_t screen_cursor_offset;
