@@ -5,7 +5,7 @@
  */
 
 keyboard_event_handler_t keyboard_event_handlers[KEYBOARD_EVENT_HANDLER_MAX];
-uint8_t keyboard_key_state[256];
+uint8_t keyboard_key_state_table[256];
 
 /*
  *  Implementation
@@ -55,13 +55,13 @@ void keyboard_interrupt_handler(struct interrupt_frame _frame)
 
 uint8_t keyboard_key_state(uint8_t _key_code)
 {
-    return keyboard_key_state[_key_code];
+    return keyboard_key_state_table[_key_code];
 }
 
 uint8_t _keyboard_register_key_state(struct key_event_t _key_event)
 {
     uint8_t pressed = !(_key_event.flags & KEYBOARD_FLAG_RELEASE);
-    keyboard_key_state[_key_event.key_code] = pressed;
+    keyboard_key_state_table[_key_event.key_code] = pressed;
 
     return 0;
 }
