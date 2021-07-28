@@ -62,12 +62,14 @@ void screen_print_string_f(const char* _string, uint8_t _format)
 void screen_putchar(char _char)
 {
     *(VGA_MEMORY + 2 * screen_cursor_offset++) = _char;
+    screen_set_cursor_offset(screen_cursor_offset);
 }
 
 void screen_putchar_f(char _char, uint8_t _format)
 {
     *(VGA_MEMORY + 2 * screen_cursor_offset) = _char;
     *(VGA_MEMORY + 2 * screen_cursor_offset++ + 1) = _format;
+    screen_set_cursor_offset(screen_cursor_offset);
 }
 
 void screen_clear()
@@ -88,4 +90,6 @@ void screen_next_line()
 {
     screen_cursor_offset -= screen_cursor_offset % VGA_WIDTH;
     screen_cursor_offset += VGA_WIDTH;
+
+    screen_set_cursor_offset(screen_cursor_offset);
 }
