@@ -9,6 +9,7 @@ boot: floppy
 mouse: enabled=0
 
 com1: enabled=1, mode=file, dev=logs/com1.out
+clock: sync=realtime, time0=local
 
 log:         logs/bochslog.log
 error:       action=report
