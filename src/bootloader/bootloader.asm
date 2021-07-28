@@ -13,7 +13,7 @@
 [org 0x7c00]                ; Bootloader always loaded at
                             ; this specific adress
 PROGRAM_SPACE equ 0x9000
-SECTOR_LOAD_NUM equ 25
+SECTOR_LOAD_NUM equ 50
 
     ; Load further sectors
     ; into memory
