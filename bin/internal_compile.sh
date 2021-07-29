@@ -38,6 +38,10 @@ $COMPILER $COMPILER_PARAM -c src/driver/screen_vga.c -o $OBJ_DIR/driver/screen_v
 $COMPILER $COMPILER_PARAM -c src/driver/serial.c -o $OBJ_DIR/driver/serial.o
 $COMPILER $COMPILER_PARAM -c src/driver/keyboard.c -o $OBJ_DIR/driver/keyboard.o
 
+mkdir $OBJ_DIR/prog
+$COMPILER $COMPILER_PARAM -c src/prog/snek/main.c -o $OBJ_DIR/prog/snek/main.o
+
+
 # Link with custom linker
 $LINKER -T"bin/link.ld"
 

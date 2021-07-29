@@ -15,6 +15,7 @@ INPUT
     build/obj/kernel/ps2.o
     build/obj/kernel/time.o
     build/obj/interrupt.o
+    build/obj/prog/snek/main.o
 )
 
 OUTPUT
