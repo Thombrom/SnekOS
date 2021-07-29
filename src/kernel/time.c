@@ -25,14 +25,9 @@ void time_interrupt_handler(struct interrupt_frame  _frame)
 {
     screen_set_cursor_position(0, 0);
     time_since_boot += 1;
+}
 
-    uint8_t digits[8];
-
-    for (uint8_t itt = 0;  itt < 8; itt++)
-        digits[itt] = (time_since_boot >> (4 * itt)) & 0x0F;
-
-    char* lookup_table = "0123456789ABCDEF";
-    for (uint8_t itt = 7; itt < 8; itt--)
-        screen_putchar(lookup_table[digits[itt]]);
-
+uint64_t time_get_time_since_boot()
+{
+    return time_since_boot;
 }

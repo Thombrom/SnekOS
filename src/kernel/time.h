@@ -21,3 +21,13 @@ void time_init();
  */
 
 void time_interrupt_handler(struct interrupt_frame _frame);
+
+/*
+ *  time_get_time_since_boot
+ *
+ *  Returns the number of interrupts
+ *  since boot. This is probably ~16 x seconds
+ *  since boot
+ */
+
+uint64_t time_get_time_since_boot();

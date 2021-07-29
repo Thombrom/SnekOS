@@ -1,10 +1,8 @@
-#include "../driver/screen_vga.h"
+#include "../driver/keyboard.h"
 #include "idt.h"
 #include "time.h"
 
 #include "../prog/snek/main.h"
-
-uint8_t sample_keyboard_handler(struct key_event_t _key_event);
 
 // Kernel Entrypoint
 void _start() {
