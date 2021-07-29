@@ -16,6 +16,9 @@ INPUT
     build/obj/kernel/time.o
     build/obj/interrupt.o
     build/obj/prog/snek/main.o
+    build/obj/prog/snek/game.o
+    build/obj/prog/snek/menu.o
+    build/obj/prog/snek/game_end.o
 )
 
 OUTPUT

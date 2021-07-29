@@ -39,7 +39,11 @@ $COMPILER $COMPILER_PARAM -c src/driver/serial.c -o $OBJ_DIR/driver/serial.o
 $COMPILER $COMPILER_PARAM -c src/driver/keyboard.c -o $OBJ_DIR/driver/keyboard.o
 
 mkdir $OBJ_DIR/prog
+mkdir $OBJ_DIR/prog/snek
 $COMPILER $COMPILER_PARAM -c src/prog/snek/main.c -o $OBJ_DIR/prog/snek/main.o
+$COMPILER $COMPILER_PARAM -c src/prog/snek/game.c -o $OBJ_DIR/prog/snek/game.o
+$COMPILER $COMPILER_PARAM -c src/prog/snek/menu.c -o $OBJ_DIR/prog/snek/menu.o
+$COMPILER $COMPILER_PARAM -c src/prog/snek/game_end.c -o $OBJ_DIR/prog/snek/game_end.o
 
 
 # Link with custom linker
