@@ -19,6 +19,7 @@ void keyboard_activate(void)
 {
     uint8_t interrupt_vector = PIC_MASTER_START_INTERRUPT + 1;
     register_interrupt_handler(&keyboard_interrupt_handler, interrupt_vector);
+    pic_enable(PIC_MASTER_START_INTERRUPT + 1);
 
     // Register key state handler
     keyboard_register_event_handler(&_keyboard_register_key_state);

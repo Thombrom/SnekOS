@@ -32,7 +32,6 @@ void idt_set_descriptor(uint8_t _vector, void* _isr, uint8_t _flags)
 
 }
 
-
 void idt_init() {
     // Set up the IDTR values
     idtr.base = (uint64_t)&_idt[0];
@@ -45,9 +44,12 @@ void idt_init() {
 
     // Load idt (lidt) and enable interrupts (sti)
     __asm__ volatile ("lidt %0" :  : "memory"(idtr));
-    out_byte(0x21, 0xfc);                               // Mask PIC1 to only keyboard interrupts
-    out_byte(0xa1, 0xff);                               // Mask PIC2 to no interrupts
+    out_byte(0x21, 0xFC);
     __asm__ volatile ("sti");
+
+    // Disable PIC interrupts
+    for (uint8_t vector = 0; vector < 16; vector++)
+        pic_disable(vector);
 }
 
 void interrupt_handler(struct interrupt_frame _frame)

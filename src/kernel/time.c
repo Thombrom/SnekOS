@@ -17,6 +17,8 @@ void time_init()
 
     uint8_t interrupt_vector = PIC_MASTER_START_INTERRUPT + 0;
     register_interrupt_handler(&time_interrupt_handler, interrupt_vector);
+
+    pic_enable(PIC_MASTER_START_INTERRUPT);
 }
 
 void time_interrupt_handler(struct interrupt_frame  _frame)
