@@ -3,6 +3,7 @@
 #include "../driver/keyboard.h"
 
 #include "idt.h"
+#include "time.h"
 
 uint8_t sample_keyboard_handler(struct key_event_t _key_event);
 
@@ -13,6 +14,9 @@ void _start() {
     // Setup keyboard
     keyboard_activate();
     keyboard_register_event_handler(&sample_keyboard_handler);
+
+    // Setup time
+    time_init();
 
     // Clear screen
     screen_clear_f(FG_WHITE | BG_BLACK);
