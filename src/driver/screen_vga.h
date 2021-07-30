@@ -65,5 +65,6 @@ void screen_clear();
 void screen_clear_f(uint8_t _format);
 
 void screen_next_line();
+void screen_cursor_disable();
 
 extern uint16_t screen_cursor_offset;

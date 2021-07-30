@@ -93,3 +93,9 @@ void screen_next_line()
 
     screen_set_cursor_offset(screen_cursor_offset);
 }
+
+void screen_cursor_disable()
+{
+    out_byte(CURSOR_POSITION_COMMAND_PORT, 0x0A);
+    out_byte(CURSOR_POSITION_DATA_PORT,    0x20);
+}
