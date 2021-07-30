@@ -23,7 +23,6 @@ void time_init()
 
 void time_interrupt_handler(struct interrupt_frame  _frame)
 {
-    screen_set_cursor_position(0, 0);
     time_since_boot += 1;
 }
 
