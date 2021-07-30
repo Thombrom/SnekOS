@@ -39,6 +39,11 @@ uint8_t keyboard_register_event_handler(keyboard_event_handler_t _event_handler)
     return 0;
 }
 
+void keyboard_unregister_event_handler(uint8_t _vector)
+{
+    keyboard_event_handlers[_vector - 1] = 0;
+}
+
 void _keyboard_update_lock_flags(struct key_event_t _key_event)
 {
     uint8_t flags = _key_event.flags;

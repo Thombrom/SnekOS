@@ -51,6 +51,7 @@ struct key_event_t;
 typedef uint8_t (*keyboard_event_handler_t)(struct key_event_t);
 
 uint8_t keyboard_register_event_handler(keyboard_event_handler_t _event_handler);
+void    keyboard_unregister_event_handler(uint8_t _vector);
 
 /*
  *  key_state
