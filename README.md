@@ -1,4 +1,4 @@
-# SnekOS
+# SnekO
 A small operating system to play snake
 
 The operating system boots and launches a snake program which can be played with the arrow keys.
