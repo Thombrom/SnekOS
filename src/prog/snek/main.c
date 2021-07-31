@@ -8,6 +8,7 @@ void snek_main()
     snek_change_state(GAME_STATE_MENU, 0);
 
     while(1)
+    {
         switch(game_state)
         {
             case GAME_STATE_GAME:
@@ -15,7 +16,9 @@ void snek_main()
                 break;
             case GAME_STATE_MENU:
                 snek_menu_main();
+                break;
         }
+    }
 }
 
 void snek_change_state(uint8_t _game_state, uint8_t _param)
@@ -30,6 +33,7 @@ void snek_change_state(uint8_t _game_state, uint8_t _param)
             snek_menu_init();
             break;
         case GAME_STATE_END:
+            snek_game_end_init(_param);
             break;
     }
 }

@@ -39,7 +39,7 @@ void snek_menu_draw()
     screen_set_cursor_position(button_x_start, button_y_start + 0);
     screen_print_string("\xdb\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdf\xdb");
     screen_set_cursor_position(button_x_start, button_y_start + 1);
-    screen_print_string("\xdb Press enter to start \xdb");
+    screen_print_string("\xdb Press enter to begin \xdb");
     screen_set_cursor_position(button_x_start, button_y_start + 2);
     screen_print_string("\xdb\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdc\xdb");
     screen_set_cursor_position(0, 0);
