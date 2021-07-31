@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../../kernel/typedef.h"
+#include "../../driver/screen_vga.h"
+#include "../../driver/keyboard.h"
+#include "../../kernel/time.h"
 
 #include "game.h"
 #include "menu.h"

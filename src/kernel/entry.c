@@ -1,4 +1,5 @@
 #include "../driver/keyboard.h"
+#include "../driver/screen_vga.h"
 #include "idt.h"
 #include "time.h"
 
